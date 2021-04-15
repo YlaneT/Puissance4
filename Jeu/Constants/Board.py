@@ -27,14 +27,14 @@ class Board:
 			return False
 		return True
 
-	def setPawn(self,couleur, colonne):
+	def setPawn(self, couleur, colonne):
 		if not self.isColFull(colonne):
 			for i in reversed(range(0, self.nb_line)):
 				if self.board[i][colonne-1] == '_':
 					self.board[i][colonne-1] = couleur
 					return
 
-	def winState(self,couleur):
+	def winState(self, couleur):
 		objectif = 4
 		for i in range(0, self.nb_line):
 			for j in range(0, self.nb_col):
@@ -74,3 +74,9 @@ class Board:
 							return True
 
 		return False
+
+	def isBoardFull(self):
+		for i in range(1, self.nb_col+1):
+			if not self.isColFull(i):
+				return False
+		return True
