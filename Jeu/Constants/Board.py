@@ -1,37 +1,67 @@
+from Puissance4.Jeu.Constants.Couleur import Couleur
+from Puissance4.Jeu.Constants.Humain import Humain
+
+
 class Board:
-	board = []
-	nb_col = 6
-	nb_line = 6
 
-	def __init__(self):
-		for i in range(1, self.nb_col+1):
-			self.board.append(['_']*self.nb_line)
-
-	def reset(self):
+	def __init__(self, ia):
 		self.board = []
-		self.__init__()
+		self.nb_col = 7
+		self.nb_line = 6
+		self.joueur1 = Humain(Couleur.ROUGE, "Joueur")
+		self.joueur2 = ia
 
+		for i in range(1, self.nb_line + 1):
+			line = []
+
+			for j in range(1, self.nb_col + 1):
+				line.append("_")
+
+			self.board.append(line)
+
+	# Deep copy du tableau de jeu pour les tests de l'IA
+	def copyBoard(self, board):
+		for i in range(self.nb_col):
+			for j in range(self.nb_line):
+				self.board[j][i] = board[j][i]
+
+	# Reinitialise le plateau de jeu
+	def reset(self, ia):
+		self.board = []
+		self.__init__(ia)
+
+	def getColorValue(self, value):
+		if value == Couleur.ROUGE:
+			return "R"
+		elif value == Couleur.JAUNE:
+			return "J"
+		else:
+			return "_"
+
+	# Affiche le board
 	def render(self):
 		for row in self.board:
 			ligne = '|'
 			for elem in row:
-				ligne += ' ' + elem + ' |'
+				ligne += ' ' + self.getColorValue(elem) + ' |'
 			print(ligne)
 		ligne = '|'
-		for i in range(1, self.nb_col+1):
+		for i in range(1, self.nb_col + 1):
 			ligne += ' ' + str(i) + ' |'
 		print(ligne)
 
+	# Retourne True si la colonne en paramètre est pleine
 	def isColFull(self, colonne):
-		if self.board[0][colonne-1] == '_':
+		if self.board[0][colonne - 1] == '_':
 			return False
 		return True
 
+	# Place un pion en prenant la gravité en compte
 	def setPawn(self, couleur, colonne):
 		if not self.isColFull(colonne):
 			for i in reversed(range(0, self.nb_line)):
-				if self.board[i][colonne-1] == '_':
-					self.board[i][colonne-1] = couleur
+				if self.board[i][colonne - 1] == '_':
+					self.board[i][colonne - 1] = couleur
 					return
 
 	def winState(self, couleur):
@@ -67,16 +97,21 @@ class Board:
 							return True
 
 					# checker la diagonale haute
-					while i - allignes > 0 and j + allignes < self.nb_col and self.board[i - allignes][j + allignes] == couleur:
+					while i - allignes > 0 and j + allignes < self.nb_col and self.board[i - allignes][
+						j + allignes] == couleur:
 						allignes += 1
 
 						if allignes == objectif:
 							return True
-
 		return False
 
+	# Renvoie True si le plateau de jeu est plein
 	def isBoardFull(self):
-		for i in range(1, self.nb_col+1):
+		for i in range(1, self.nb_col + 1):
 			if not self.isColFull(i):
 				return False
 		return True
+
+	# Renvoie le plateau de jeu
+	def getBoard(self):
+		return self.board
