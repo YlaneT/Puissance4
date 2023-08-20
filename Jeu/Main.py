@@ -1,4 +1,4 @@
-from Puissance4.Jeu.Constants import AI
+from Puissance4.Jeu.Constants.AI import AI
 from Puissance4.Jeu.Constants.Board import Board
 from Puissance4.Jeu.Constants.Couleur import Couleur
 
@@ -24,11 +24,14 @@ def jouer(board):
 			tour = board.joueur1
 			print(f"C'est le tour de {tour.name} : ")
 			coup = tour.play_turn(board)
+			# coup = tour.thinks(board, 0, True)[0]
 			board.setPawn(tour.color, coup)
 		elif compteur % 2 == 0:
 			tour = board.joueur2
 			print(f"C'est le tour de {tour.name} : ")
-			coup = tour.thinks(board, 0, True)[0]
+			# coup = tour.thinks(board, 0, True)[0]
+			coup = tour.play_turn(board)
+
 			board.setPawn(tour.color, coup)
 
 		print(f"{tour.name} joue à la colonne {coup}")

@@ -8,8 +8,9 @@ class Board:
 		self.board = []
 		self.nb_col = 7
 		self.nb_line = 6
-		self.joueur1 = Humain(Couleur.ROUGE, "Joueur")
-		self.joueur2 = ia
+		self.joueur1 = Humain(Couleur.ROUGE, "J1")
+		self.joueur2 = Humain(Couleur.JAUNE, "J2")
+		# self.joueur2 = ia
 
 		for i in range(1, self.nb_line + 1):
 			line = []
@@ -19,13 +20,17 @@ class Board:
 
 			self.board.append(line)
 
-	# Deep copy du tableau de jeu pour les tests de l'IA
+	"""
+	Deep copy du tableau de jeu pour les tests de l'IA
+	@param board : plateau de jeu à copier
+	:return: deepCopy
+	"""
 	def copyBoard(self, board):
 		for i in range(self.nb_col):
 			for j in range(self.nb_line):
 				self.board[j][i] = board[j][i]
 
-	# Reinitialise le plateau de jeu
+	""" Reinitialise le plateau de jeu """
 	def reset(self, ia):
 		self.board = []
 		self.__init__(ia)
@@ -38,7 +43,7 @@ class Board:
 		else:
 			return "_"
 
-	# Affiche le board
+	""" Affiche le board """
 	def render(self):
 		for row in self.board:
 			ligne = '|'
@@ -50,13 +55,13 @@ class Board:
 			ligne += ' ' + str(i) + ' |'
 		print(ligne)
 
-	# Retourne True si la colonne en paramètre est pleine
+	""" Retourne True si la colonne en paramètre est pleine """
 	def isColFull(self, colonne):
 		if self.board[0][colonne - 1] == '_':
 			return False
 		return True
 
-	# Place un pion en prenant la gravité en compte
+	""" Place un pion en prenant la gravité en compte """
 	def setPawn(self, couleur, colonne):
 		if not self.isColFull(colonne):
 			for i in reversed(range(0, self.nb_line)):
@@ -64,6 +69,10 @@ class Board:
 					self.board[i][colonne - 1] = couleur
 					return
 
+	"""
+	Détermine si le joueur dont la couleur est entrée en paramètre gagne la partie
+	return booleen
+	"""
 	def winState(self, couleur):
 		objectif = 4
 		for i in range(0, self.nb_line):

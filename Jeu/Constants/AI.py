@@ -8,6 +8,7 @@ class AI:
 		self.color = color
 		self.__enemy = self.enemy_color()
 
+	# ALGORITHME MINIMAX
 	# board : pateau de jeu
 	# depth : profondeur du coup testé
 	# AI_turn : booléen determinant si c'est le tour de l'IA

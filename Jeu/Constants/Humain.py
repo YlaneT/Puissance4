@@ -11,7 +11,7 @@ class Humain:
 		move = None
 		while not move_correct:
 			move = int(input("Où voulez-vous jouer ?"))
-			if not board.isColFull(move) and 0 < move <= len(board.getBoard()[0]):
+			if not board.isColFull(move) and 0 < move <= nb_col:
 				move_correct = True
 			else:
 				print("Vous ne pouvez pas jouer ici.")
